@@ -48,7 +48,7 @@ const render = () => {
             addToBoardContents(i)
             playerPointX()
             playerPoint0()
-            
+            draw();
         }
         const player = boardContents[i]
         board.appendChild(cell)
@@ -58,6 +58,11 @@ const render = () => {
 function empty() {
     render()
     boardContents = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+}
+
+function checkForDraw() {
+    const allCellsFilled = boardContents.every(cell => cell !== 0);
+    return allCellsFilled;
 }
 
 const playerPointX = () => {
@@ -75,12 +80,14 @@ const playerPointX = () => {
         }
 
         if (winningConditionsMet == 3) {
-            alert("Player X won")
-            scoreP1++
-            score1.textContent = `${scoreP1}`
-            winningConditionsMet = 0
-            gameOver()
-            empty()
+            setTimeout(() => {
+                alert("Player X won");
+                scoreP1++
+                score1.textContent = `${scoreP1}`
+                winningConditionsMet = 0
+                gameOver()
+                empty()
+            }, 350);
             return
         }
     }
@@ -101,14 +108,25 @@ const playerPoint0 = () => {
         }
 
         if (winningConditionsMet == 3) {
-            alert("Player 0 won")
-            scoreP2++
-            score2.textContent = `${scoreP2}`
-            empty()
-            gameOver()
+            setTimeout(() => {
+                alert("Player 0 won");
+                scoreP2++
+                score2.textContent = `${scoreP2}`
+                empty()
+                gameOver()
+            }, 350)
             return
         }
     }
+}
+
+function draw(){
+    setTimeout(() => {
+        if (checkForDraw() && !gameOver()) {
+            alert("It's a draw!");
+            empty();
+        }
+    }, 400);
 }
 
 function gameOver() {
@@ -128,11 +146,6 @@ function gameOver() {
         score1.textContent = "0"
         score2.textContent = "0"
     }
-
 }
 
 render();
-
-
-
-//add code so that when its player 1s turn the code changes a number to a mark to the array 
